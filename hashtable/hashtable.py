@@ -51,8 +51,9 @@ class HashTable:
         """
         # Your code here
 
-
-    def fnv1(self, key):
+#----------------fnv1 hash function ------------
+    def fnv1(self, key, seed=0):
+    # def fnv1(self, key):
         """
         FNV-1 Hash, 64-bit
 
@@ -60,19 +61,47 @@ class HashTable:
         """
 
         # Your code here
-
-
-    def djb2(self, key):
         """
-        DJB2 hash, 32-bit
-
-        Implement this, and/or FNV-1.
+        Returns: The FNV-1 hash (64-bit) of a given string. 
         """
-        # Your code here
-        hash = 5381
+        #Constants : Fails the tests
+        # FNV_prime = 1099511628211
+        # offset_basis = 14695981039346656037
+
+        # #FNV-1a Hash Function
+        # hash = offset_basis + seed
+        # # hash = offset_basis
+        # for c in key:
+        #     hash = hash * FNV_prime
+        #     hash = hash ^ ord(c)
+        # return hash
+
+        """
+        Returns: The FNV-1a (alternate) hash of a given string
+        """
+        #Constants : Passes the tests
+        FNV_prime = 1099511628211
+        offset_basis = 14695981039346656037
+
+        #FNV-1a alternate Hash Function
+        hash = offset_basis + seed
         for c in key:
-            hash = (hash*33)+ ord(c)
-        return hash    
+            hash = hash ^ ord(c)
+            hash = hash * FNV_prime
+        return hash
+
+#----------------djb2 hash function------------
+    # def djb2(self, key):
+    #     """
+    #     DJB2 hash, 32-bit
+
+    #     Implement this, and/or FNV-1.
+    #     """
+    #     # Your code here
+    #     hash = 5381
+    #     for c in key:
+    #         hash = (hash*33)+ ord(c)
+    #     return hash    
 
 
     def hash_index(self, key):
@@ -80,8 +109,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
         
 
     def put(self, key, value):
@@ -107,8 +136,9 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
+        print(index)
         if self.data[index]==None:
-            print("Key not found")          
+            print("Warning:Key is not found")          
         else:
             del self.data[index]
                 
@@ -126,7 +156,7 @@ class HashTable:
         index = self.hash_index(key)
 
         if self.data[index] is None:
-            print("key is not found")
+            print("Warning:Key is not found")
         else:
             return self.data[index]
 
