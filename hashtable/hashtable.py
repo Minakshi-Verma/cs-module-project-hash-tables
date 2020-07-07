@@ -11,7 +11,6 @@ class HashTableEntry:
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
-
 class HashTable:
     """
     A hash table that with `capacity` buckets
@@ -57,7 +56,7 @@ class HashTable:
         """
 
         # Your code here
-        
+
 
     def djb2(self, key):
         """
@@ -69,8 +68,7 @@ class HashTable:
         hash = 5381
         for c in key:
             hash = (hash*33)+ ord(c)
-        return hash
-    
+        return hash    
 
 
     def hash_index(self, key):
@@ -105,11 +103,11 @@ class HashTable:
         """
         # Your code here
         index = self.hash_index(key)
-        if self.data[index]== None:
-            print("key is not found")
+        if self.data[index]==None:
+            print("Key not found")          
         else:
             del self.data[index]
-        
+                
 
 
     def get(self, key):
@@ -120,16 +118,14 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here        
-       
+        # Your code here      
         index = self.hash_index(key)
-        if self.data[index] is not None and self.data[index].key==key:
-            return self.data[index].value
-        elif self.data[index] is None:            
-            print("key not found")
-       
 
-     
+        if self.data[index] is None:
+            print("key is not found")
+        else:
+            return self.data[index]
+
 
     def resize(self, new_capacity):
         """
@@ -176,3 +172,12 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+
+
+
+
+
+    # //--------------------
+
