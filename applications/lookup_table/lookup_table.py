@@ -17,6 +17,14 @@ def slowfun(x, y):
     output, but completes quickly instead of taking ages to run.
     """
     # Your code here
+    data = (x,y)
+    if data in cache:
+        return cache[data]
+    cache[data]= slowfun_too_slow(x,y)   
+    return cache[data]
+
+    
+   
    
 
 # Do not modify below this line!
