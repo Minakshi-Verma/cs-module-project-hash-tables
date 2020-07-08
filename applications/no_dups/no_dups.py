@@ -1,5 +1,23 @@
 def no_dups(s):
     # Your code here
+    #split the text string to a list of string
+    s_word = s.split()
+    # print(type(s_word))
+    # print(s_word)
+    
+    found_cache = {}
+    output = ""
+    for i in range(len(s_word)):
+        if s_word[i] not in found_cache:
+            #Add to cache if not there
+            found_cache[s_word[i]] = True
+            print(found_cache)
+            output += s_word[i] + " "
+            # print(output)
+    
+    # remove the extra last space at the end of the last string       
+    return output[:-1]
+  
 
 
 

@@ -134,6 +134,10 @@ class HashTable:
         if self.data[index].head == None:
             self.data[index].head = HashTableEntry(key, value)  # similar to node class we used before
             self.count +=1
+            # #-----
+            # self.loadfactor = self.count / self.capacity
+            # if self.loadfactor > 0.7:
+            #     self.resize(self.capacity * 2)
             
         else:
             # Linklist is not empty 
@@ -206,7 +210,6 @@ class HashTable:
                     return cur.value 
 
 
-
     def resize(self, new_capacity):
         """
         Changes the capacity of the hash table and
@@ -216,8 +219,7 @@ class HashTable:
         """
         # Your code here     
         self.capacity= new_capacity
-        new_data= [LinkedList()]* new_capacity
-        
+        new_data= [LinkedList()]* new_capacity        
         
         # resizing  of storage needed if loadfactor >0.7 or <0.2
         if self.get_load_factor() > 0.7:                
@@ -244,8 +246,8 @@ class HashTable:
                     cur = cur.next   
             # Once all the nodes have been added to new_data: self.data== new_data
         self.data= new_data
-                 
 
+    
 
 if __name__ == "__main__":
     ht = HashTable(8)
