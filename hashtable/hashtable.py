@@ -86,29 +86,29 @@ class HashTable:
         """
         Returns: The FNV-1a (alternate) hash of a given string
         """
-        #Constants : Passes the tests
-        FNV_prime = 1099511628211
-        offset_basis = 14695981039346656037
+        # #Constants : Passes the tests
+        # FNV_prime = 1099511628211
+        # offset_basis = 14695981039346656037
 
-        #FNV-1a alternate Hash Function
-        hash = offset_basis + seed
-        for c in key:
-            hash = hash ^ ord(c)
-            hash = hash * FNV_prime
-        return hash
+        # #FNV-1a alternate Hash Function
+        # hash = offset_basis + seed
+        # for c in key:
+        #     hash = hash ^ ord(c)
+        #     hash = hash * FNV_prime
+        # return hash
 
 #----------------djb2 hash function------------
-    # def djb2(self, key):
-    #     """
-    #     DJB2 hash, 32-bit
+    def djb2(self, key):
+        """
+        DJB2 hash, 32-bit
 
-    #     Implement this, and/or FNV-1.
-    #     """
-    #     # Your code here
-    #     hash = 5381
-    #     for c in key:
-    #         hash = (hash*33)+ ord(c)
-    #     return hash    
+        Implement this, and/or FNV-1.
+        """
+        # Your code here
+        hash = 5381
+        for c in key:
+            hash = (hash*33)+ ord(c)
+        return hash    
 
 
     def hash_index(self, key):
@@ -116,8 +116,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.fnv1(key) % self.capacity
-        # return self.djb2(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
 
     def put(self, key, value):
@@ -202,8 +202,9 @@ class HashTable:
         else:
             while cur.next:
                 cur= cur.next
-                if cur.key ==key:
-                    return cur.value       
+                if cur.key ==key:                   
+                    return cur.value 
+
 
 
     def resize(self, new_capacity):
@@ -213,9 +214,37 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
-   
+        # Your code here     
+        self.capacity= new_capacity
+        new_data= [LinkedList()]* new_capacity
+        
+        
+        # resizing  of storage needed if loadfactor >0.7 or <0.2
+        if self.get_load_factor() > 0.7:                
+            #iterate through all the items in the orginal data
+            for i in self.data:
+                cur = i.head
+                while cur:                                       
+                    # rehash the key/value pairs of data with new_capacity and get the new index
+                    
+                    index = self.hash_index(cur.key)
 
+                    # now add all the items to the new list
+                    if new_data[index].head is None:
+                        #make new node the head
+                        new_data[index].head= HashTableEntry(cur.key, cur.value)
+                    else:
+                        new_node = HashTableEntry(cur.key, cur.value)
+                        print("Keys",cur.key) 
+                        print("Values",cur.value)
+                        # add new_node to the head and shift the head pointers 
+                        new_node.next = new_data[index].head
+                        new_data[index].head = new_node
+                    # repeat till all the nodes have been added to new storage    
+                    cur = cur.next   
+            # Once all the nodes have been added to new_data: self.data== new_data
+        self.data= new_data
+                 
 
 
 if __name__ == "__main__":
