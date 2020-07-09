@@ -13,15 +13,11 @@ def no_dups(s):
             cache[s_word[i]] = True
             print(cache)
             output += s_word[i] + " "
-            # print(output) 
-                    
+            # print(output)                     
     
     # remove the extra last space at the end of the last string 
          
     return output[:-1]
-  
-
-
 
 if __name__ == "__main__":
     print(no_dups(""))
